@@ -1,0 +1,21 @@
+{
+  "name": "@kdrowe/common-utils",
+  "version": "1.0.1",
+  "description": "Common utilities for Node.js applications",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@google-cloud/logging-winston": "^5.3.0",
+    "config": "^3.3.9",
+    "googleapis": "^105.0.0",
+    "mocha": "^10.2.0",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Kristopher D. Rowe",
+  "license": "MIT"
+}
