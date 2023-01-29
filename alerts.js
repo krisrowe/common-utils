@@ -1,6 +1,6 @@
 const path = require('path');
 const process = require('process');
-const logging = require('./logging.js');
+const logger = require('./logger.js');
 
 const SECRETS_PATH = process.env.TWILIO_CREDS_PATH || path.join(process.cwd(), 'secrets/twilio.json');
 
@@ -31,7 +31,7 @@ function sendSms(body, to = null) {
         try {
             twilio = getTwilio();
         } catch (ex) {
-            logging.log('error', 'Failed to initialize Twilio: ' + ex);
+            logger.log('error', 'Failed to initialize Twilio: ' + ex);
             reject(ex);
         }
         to = to || twilio.secrets.defaultSendTo;
@@ -43,11 +43,11 @@ function sendSms(body, to = null) {
             }).then(message => {
                 resolve(message);
             }).catch(reason  => {
-                logging.log('error', 'Failed to send SMS: ' + reason);
+                logger.log('error', 'Failed to send SMS: ' + reason);
                 reject(reason);  
             }); 
         } catch (ex) {
-            logging.log('error', 'Failed to send SMS: ' + ex);
+            logger.log('error', 'Failed to send SMS: ' + ex);
             reject(ex);  
         }   
     });    
