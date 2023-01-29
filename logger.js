@@ -5,26 +5,26 @@ const config = require('config');
 const transports = [];
 
 var settings = config.has('logging.file') ? config.get('logging.file') : { };
-if (settings && (settings.enabled === undefined || settings.enabled)) {
-    transports.push(new winston.transports.File({ 
-        filename: settings.path || 'debug.log', 
-        level: settings.level || 'verbose'
-    }));
-}
+transports.push(new winston.transports.File({ 
+  filename: settings.path || 'debug.log', 
+  level: settings.level || 'verbose',
+  silent: !config.has('logging.file') || settings.enabled === false
+}));
 
-settings = config.has('logging.gcp') ? config.get('logging.gcp') : { };
-if (settings && settings.enabled) {
-    transports.push(new LoggingWinston({ level: settings.level || 'verbose' }));
+if (config.has('logging.gcp')) {
+  settings = config.get('logging.gcp');
+  transports.push(new LoggingWinston({ 
+    level: settings.level || 'verbose',
+    silent: settings.enabled === false
+  }));
 }
 
 settings = config.has('logging.console') ? config.get('logging.console') : { };
-// Always add console logging, unless explicitly disabled.
-if (!settings || settings.enabled !== false) {
-    transports.push(new winston.transports.Console({
-        format: winston.format.simple(),
-        level: (settings && settings.level) ? settings.level : 'verbose'
-    }));
-}
+transports.push(new winston.transports.Console({
+  format: winston.format.simple(),
+  level: (settings && settings.level) ? settings.level : 'verbose',
+  silent: config.has('logging.console') && settings.enabled === false
+}));
 
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
