@@ -1,6 +1,6 @@
 {
   "name": "@kdrowe/common-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Common utilities for Node.js applications",
   "directories": {
     "test": "test"
